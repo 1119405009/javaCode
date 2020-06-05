@@ -1,0 +1,1109 @@
+# java基础
+
+
+
+###  JVM JDK 和 JRE 
+
+####   JVM
+
+**Java 虚拟机（JVM）是运行 Java 字节码的虚拟机。JVM 有针对不同系统的特定实现（Windows，Linux，macOS），目的是使用相同的字节码，它们都会给出相同的结果。**
+
+**什么是字节码?采用字节码的好处是什么?**
+
+在 Java 中，JVM 可以理解的代码就叫做`字节码`（即扩展名为 `.class` 的文件），它不面向任何特定的处理器，只面向虚拟机。Java 语言通过字节码的方式，在一定程度上解决了传统解释型语言执行效率低的问题，同时又保留了解释型语言可移植的特点。所以 Java 程序运行时比较高效，而且，由于字节码并不针对一种特定的机器，因此，Java 程序无须重新编译便可在多种不同操作系统的计算机上运行。
+
+**Java 程序从源代码到运行一般有下面 3 步**
+
+
+
+![](D:\devPro\javaCode\images\java\Java 程序运行过程.png)
+
+
+
+我们需要格外注意的是 .class->机器码 这一步。在这一步 JVM 类加载器首先加载字节码文件，然后通过解释器逐行解释执行，这种方式的执行速度会相对比较慢。而且，有些方法和代码块是经常需要被调用的(也就是所谓的热点代码)，所以后面引进了 JIT 编译器，而 JIT 属于运行时编译。当 JIT 编译器完成第一次编译后，其会将字节码对应的机器码保存下来，下次可以直接使用。而我们知道，机器码的运行效率肯定是高于 Java 解释器的。这也解释了我们为什么经常会说 Java 是编译与解释共存的语言
+
+
+
+
+
+#### JDK 和 JRE
+
+JDK 是 Java Development Kit，它是功能齐全的 Java SDK。它拥有 JRE 所拥有的一切，还有编译器（javac）和工具（如 javadoc 和 jdb）。它能够创建和编译程序。
+
+JRE 是 Java 运行时环境。它是运行已编译 Java 程序所需的所有内容的集合，包括 Java 虚拟机（JVM），Java 类库，java 命令和其他的一些基础构件。但是，它不能用于创建新程序。
+
+如果你只是为了运行一下 Java 程序的话，那么你只需要安装 JRE 就可以了。如果你需要进行一些 Java 编程方面的工作，那么你就需要安装 JDK 了。但是，这不是绝对的。有时，即使您不打算在计算机上进行任何 Java 开发，仍然需要安装 JDK。例如，如果要使用 JSP 部署 Web 应用程序，那么从技术上讲，您只是在应用程序服务器中运行 Java 程序。那你为什么需要 JDK 呢？因为应用程序服务器会将 JSP 转换为 Java servlet，并且需要使用 JDK 来编译 servlet。
+
+
+
+### Java 语法
+
+#### 字符型常量和字符串常量的区别
+
+1. 形式上: 字符常量是单引号引起的一个字符; 字符串常量是双引号引起的若干个字符
+2. 含义上: 字符常量相当于一个整型值( ASCII 值),可以参加表达式运算; 字符串常量代表一个地址值(该字符串在内存中存放位置)
+3. 占内存大小 字符常量只占 2 个字节; 字符串常量占若干个字节 (**注意： char 在 Java 中占两个字节**)
+
+
+
+![](D:\devPro\javaCode\images\java\86735519.jpg)
+
+
+
+####  自增自减运算符
+
+
+
+在写代码的过程中，常见的一种情况是需要某个整数类型变量增加 1 或减少 1，Java 提供了一种特殊的运算符，用于这种表达式，叫做自增运算符（++)和自减运算符（--）。
+
+++和--运算符可以放在操作数之前，也可以放在操作数之后，当运算符放在操作数之前时，先自增/减，再赋值；当运算符放在操作数之后时，先赋值，再自增/减。例如，当“b=++a”时，先自增（自己增加 1），再赋值（赋值给 b）；当“b=a++”时，先赋值(赋值给 b)，再自增（自己增加 1）。也就是，++a 输出的是 a+1 的值，a++输出的是 a 值。用一句口诀就是：“符号在前就先加/减，符号在后就后加/减”。
+
+
+
+
+
+#### continue、break、和return的区别
+
+在循环结构中，当循环条件不满足或者循环次数达到要求时，循环会正常结束。但是，有时候可能需要在循环的过程中，当发生了某种条件之后 ，提前终止循环，这就需要用到下面几个关键词：
+
+1. continue ：指跳出当前的这一次循环，继续下一次循环。
+2. break ：指跳出整个循环体，继续执行循环下面的语句。
+
+return 用于跳出所在方法，结束该方法的运行。return 一般有两种用法：
+
+1. `return;` ：直接使用 return 结束方法执行，用于没有返回值函数的方法
+2. `return value;` ：return 一个特定值，用于有返回值函数的方法
+
+
+
+
+
+#### Java泛型了解么？什么是类型擦除？介绍一下常用的通配符？
+
+
+
+Java 泛型（generics）是 JDK 5 中引入的一个新特性, 泛型提供了编译时类型安全检测机制，该机制允许程序员在编译时检测到非法的类型。泛型的本质是参数化类型，也就是说所操作的数据类型被指定为一个参数。
+
+**Java的泛型是伪泛型，这是因为Java在编译期间，所有的泛型信息都会被擦掉，这也就是通常所说类型擦除 。** 更多关于类型擦除的问题，可以查看这篇文章：[《Java泛型类型擦除以及类型擦除带来的问题》](https://www.cnblogs.com/wuqinglong/p/9456193.html) 。
+
+
+
+```java
+List<Integer> list = new ArrayList<>();
+
+list.add(12);
+//这里直接添加会报错
+list.add("a");
+Class<? extends List> clazz = list.getClass();
+Method add = clazz.getDeclaredMethod("add", Object.class);
+//但是通过反射添加，是可以的
+add.invoke(list, "kl");
+
+System.out.println(list)
+```
+
+
+
+泛型一般有三种使用方式:泛型类、泛型接口、泛型方法。
+
+
+
+**1.泛型类**：
+
+```java
+//此处T可以随便写为任意标识，常见的如T、E、K、V等形式的参数常用于表示泛型
+//在实例化泛型类时，必须指定T的具体类型
+public class Generic<T>{ 
+
+    private T key;
+
+    public Generic(T key) { 
+        this.key = key;
+    }
+
+    public T getKey(){ 
+        return key;
+    }
+}Copy to clipboardErrorCopied
+```
+
+如何实例化泛型类：
+
+```java
+Generic<Integer> genericInteger = new Generic<Integer>(123456);Copy to clipboardErrorCopied
+```
+
+**2.泛型接口** ：
+
+```java
+public interface Generator<T> {
+    public T method();
+}Copy to clipboardErrorCopied
+```
+
+实现泛型接口，不指定类型：
+
+```java
+class GeneratorImpl<T> implements Generator<T>{
+    @Override
+    public T method() {
+        return null;
+    }
+}Copy to clipboardErrorCopied
+```
+
+实现泛型接口，指定类型：
+
+```java
+class GeneratorImpl<T> implements Generator<String>{
+    @Override
+    public String method() {
+        return "hello";
+    }
+}Copy to clipboardErrorCopied
+```
+
+**3.泛型方法** ：
+
+```java
+   public static < E > void printArray( E[] inputArray )
+   {         
+         for ( E element : inputArray ){        
+            System.out.printf( "%s ", element );
+         }
+         System.out.println();
+    }Copy to clipboardErrorCopied
+```
+
+使用：
+
+```java
+// 创建不同类型数组： Integer, Double 和 Character
+Integer[] intArray = { 1, 2, 3 };
+String[] stringArray = { "Hello", "World" };
+printArray( intArray  ); 
+printArray( stringArray  ); Copy to clipboardErrorCopied
+```
+
+**常用的通配符为： T，E，K，V，？**
+
+- ？ 表示不确定的 java 类型
+- T (type) 表示具体的一个java类型
+- K V (key value) 分别代表java键值中的Key Value
+- E (element) 代表Element
+
+更多关于Java 泛型中的通配符可以查看这篇文章：[《聊一聊-JAVA 泛型中的通配符 T，E，K，V，？》](https://juejin.im/post/5d5789d26fb9a06ad0056bd9)
+
+
+
+#### ==和equals的区别
+
+**`==`** : 它的作用是判断两个对象的地址是不是相等。即判断两个对象是不是同一个对象。(**基本数据类型==比较的是值，引用数据类型==比较的是内存地址**)
+
+因为 Java 只有值传递，所以，对于 == 来说，不管是比较基本数据类型，还是引用数据类型的变量，其本质比较的都是值，只是引用类型变量存的值是对象的地址。
+
+**equals()`** : 它的作用也是判断两个对象是否相等，它不能用于比较基本数据类型的变量。`equals()`方法存在于`Object`类中，而`Object`类是所有类的直接或间接父类。
+
+
+
+`Object`类`equals()`方法：
+
+```java
+public boolean equals(Object obj) {
+     return (this == obj);
+}Copy to clipboardErrorCopied
+```
+
+`equals()` 方法存在两种使用情况：
+
+- 情况 1：类没有覆盖 `equals()`方法。则通过`equals()`比较该类的两个对象时，等价于通过“==”比较这两个对象。使用的默认是 `Object`类`equals()`方法。
+- 情况 2：类覆盖了 `equals()`方法。一般，我们都覆盖 `equals()`方法来两个对象的内容相等；若它们的内容相等，则返回 true(即，认为这两个对象相等)。
+
+
+
+**举个例子：**
+
+```java
+public class test1 {
+    public static void main(String[] args) {
+        String a = new String("ab"); // a 为一个引用
+        String b = new String("ab"); // b为另一个引用,对象的内容一样
+        String aa = "ab"; // 放在常量池中
+        String bb = "ab"; // 从常量池中查找
+        if (aa == bb) // true
+            System.out.println("aa==bb");
+        if (a == b) // false，非同一对象
+            System.out.println("a==b");
+        if (a.equals(b)) // true
+            System.out.println("aEQb");
+        if (42 == 42.0) { // true
+            System.out.println("true");
+        }
+    }
+}Copy to clipboardErrorCopied
+```
+
+**说明：**
+
+- `String` 中的 `equals` 方法是被重写过的，因为 `Object` 的 `equals` 方法是比较的对象的内存地址，而 `String` 的 `equals` 方法比较的是对象的值。
+- 当创建 `String` 类型的对象时，虚拟机会在常量池中查找有没有已经存在的值和要创建的值相同的对象，如果有就把它赋给当前引用。如果没有就在常量池中重新创建一个 `String` 对象。
+
+`String`类`equals()`方法：
+
+```java
+public boolean equals(Object anObject) {
+    if (this == anObject) {
+        return true;
+    }
+    if (anObject instanceof String) {
+        String anotherString = (String)anObject;
+        int n = value.length;
+        if (n == anotherString.value.length) {
+            char v1[] = value;
+            char v2[] = anotherString.value;
+            int i = 0;
+            while (n-- != 0) {
+                if (v1[i] != v2[i])
+                    return false;
+                i++;
+            }
+            return true;
+        }
+    }
+    return false;
+}
+```
+
+
+
+#### hashCode()与 equals()
+
+
+
+面试官可能会问你：“你重写过 `hashcode` 和 `equals`么，为什么重写 `equals` 时必须重写 `hashCode` 方法？”
+
+**1)hashCode()介绍:**
+
+`hashCode()` 的作用是获取哈希码，也称为散列码；它实际上是返回一个 int 整数。这个哈希码的作用是确定该对象在哈希表中的索引位置。`hashCode()`定义在 JDK 的 `Object` 类中，这就意味着 Java 中的任何类都包含有 `hashCode()` 函数。另外需要注意的是： `Object` 的 hashcode 方法是本地方法，也就是用 c 语言或 c++ 实现的，该方法通常用来将对象的 内存地址 转换为整数之后返回。
+
+```java
+public native int hashCode();Copy to clipboardErrorCopied
+```
+
+散列表存储的是键值对(key-value)，它的特点是：能根据“键”快速的检索出对应的“值”。这其中就利用到了散列码！（可以快速找到所需要的对象）
+
+**2)为什么要有 hashCode？**
+
+我们以“`HashSet` 如何检查重复”为例子来说明为什么要有 hashCode？
+
+当你把对象加入 `HashSet` 时，`HashSet` 会先计算对象的 hashcode 值来判断对象加入的位置，同时也会与其他已经加入的对象的 hashcode 值作比较，如果没有相符的 hashcode，`HashSet`会假设对象没有重复出现。但是如果发现有相同 hashcode 值的对象，这时会调用 equals（）方法来检查 hashcode 相等的对象是否真的相同。如果两者相同，`HashSet` 就不会让其加入操作成功。如果不同的话，就会重新散列到其他位置。（摘自我的 Java 启蒙书《Head fist java》第二版）。这样我们就大大减少了 equals 的次数，相应就大大提高了执行速度。
+
+**3)为什么重写 `equals` 时必须重写 `hashCode` 方法？**
+
+如果两个对象相等，则 hashcode 一定也是相同的。两个对象相等,对两个对象分别调用 equals 方法都返回 true。但是，两个对象有相同的 hashcode 值，它们也不一定是相等的 。**因此，equals 方法被覆盖过，则 `hashCode` 方法也必须被覆盖。**
+
+> `hashCode()`的默认行为是对堆上的对象产生独特值。如果没有重写 `hashCode()`，则该 class 的两个对象无论如何都不会相等（即使这两个对象指向相同的数据）
+
+**4)为什么两个对象有相同的 hashcode 值，它们也不一定是相等的？**
+
+在这里解释一位小伙伴的问题。以下内容摘自《Head Fisrt Java》。
+
+因为 `hashCode()` 所使用的杂凑算法也许刚好会让多个对象传回相同的杂凑值。越糟糕的杂凑算法越容易碰撞，但这也与数据值域分布的特性有关（所谓碰撞也就是指的是不同的对象得到相同的 `hashCode`。
+
+我们刚刚也提到了 `HashSet`,如果 `HashSet` 在对比的时候，同样的 hashcode 有多个对象，它会使用 `equals()` 来判断是否真的相同。也就是说 `hashcode` 只是用来缩小查找成本。
+
+更多关于 `hashcode()` 和 `equals()` 的内容可以查看：[Java hashCode() 和 equals()的若干问题解答](https://www.cnblogs.com/skywang12345/p/3324958.html)
+
+
+
+### 基本数据类型
+
+
+
+
+
+#### Java中的几种基本数据类型是什么？对应的包装类型是什么？各自占用多少字节呢？
+
+
+
+Java**中**有8种基本数据类型，分别为：
+
+1. 6种数字类型 ：byte、short、int、long、float、double
+2. 1种字符类型：char
+3. 1中布尔型：boolean。
+
+这八种基本类型都有对应的包装类分别为：Byte、Short、Integer、Long、Float、Double、Character、Boolean
+
+| 基本类型 | 位数 | 字节 | 默认值  |
+| -------- | ---- | ---- | ------- |
+| int      | 32   | 4    | 0       |
+| short    | 16   | 2    | 0       |
+| long     | 64   | 8    | 0L      |
+| byte     | 8    | 1    | 0       |
+| char     | 16   | 2    | 'u0000' |
+| float    | 32   | 4    | 0f      |
+| double   | 64   | 8    | 0d      |
+| boolean  | 1    |      | false   |
+
+对于boolean，官方文档未明确定义，它依赖于 JVM 厂商的具体实现。逻辑上理解是占用 1位，但是实际中会考虑计算机高效存储因素。
+
+注意：
+
+1. Java 里使用 long 类型的数据一定要在数值后面加上 **L**，否则将作为整型解析：
+2. `char a = 'h'`char :单引号，`String a = "hello"` :双引号
+
+
+
+#### 自动装箱与拆箱
+
+- **装箱**：将基本类型用它们对应的引用类型包装起来；
+- **拆箱**：将包装类型转换为基本数据类型；
+
+更多内容见：[深入剖析 Java 中的装箱和拆箱](https://www.cnblogs.com/dolphin0520/p/3780005.html)
+
+
+
+#### 8种基本类型的包装类和常量池
+
+
+
+**Java 基本类型的包装类的大部分都实现了常量池技术，即 Byte,Short,Integer,Long,Character,Boolean；前面 4 种包装类默认创建了数值[-128，127] 的相应类型的缓存数据，Character创建了数值在[0,127]范围的缓存数据，Boolean 直接返回True Or False。如果超出对应范围仍然会去创建新的对象。**
+
+
+
+**Integer 缓存源代码：**
+
+```java
+/**
+*此方法将始终缓存-128 到 127（包括端点）范围内的值，并可以缓存此范围之外的其他值。
+*/
+    public static Integer valueOf(int i) {
+        if (i >= IntegerCache.low && i <= IntegerCache.high)
+            return IntegerCache.cache[i + (-IntegerCache.low)];
+        return new Integer(i);
+    }
+Copy to clipboardErrorCopied
+```
+
+**应用场景：**
+
+1. Integer i1=40；Java 在编译的时候会直接将代码封装成 Integer i1=Integer.valueOf(40);，从而使用常量池中的对象。
+2. Integer i1 = new Integer(40);这种情况下会创建新的对象。
+
+```java
+  Integer i1 = 40;
+  Integer i2 = new Integer(40);
+  System.out.println(i1==i2);//输出 false
+```
+
+
+
+### 方法（函数）
+
+
+
+#### 为什么 Java 中只有值传递？
+
+**按值调用(call by value)表示方法接收的是调用者提供的值，而按引用调用（call by reference)表示方法接收的是调用者提供的变量地址。一个方法可以修改传递引用所对应的变量值，而不能修改传递值调用所对应的变量值。** 它用来描述各种程序设计语言（不只是 Java)中方法参数传递方式。
+
+
+
+
+
+# Java 面向对象
+
+
+
+### 类和对象
+
+
+
+####  面向对象和面向过程的区别
+
+- **面向过程** ：**面向过程性能比面向对象高。** 因为类调用时需要实例化，开销比较大，比较消耗资源，所以当性能是最重要的考量因素的时候，比如单片机、嵌入式开发、Linux/Unix 等一般采用面向过程开发。但是，**面向过程没有面向对象易维护、易复用、易扩展。**
+- **面向对象** ：**面向对象易维护、易复用、易扩展。** 因为面向对象有封装、继承、多态性的特性，所以可以设计出低耦合的系统，使系统更加灵活、更加易于维护。但是，**面向对象性能比面向过程低**。
+
+
+
+#### 构造器 Constructor 是否可被 override
+
+Constructor 不能被 override（重写）,但是可以 overload（重载）,所以你可以看到一个类中有多个构造函数的情况。
+
+
+
+#### 在 Java 中定义一个不做事且没有参数的构造方法的作用
+
+Java 程序在执行子类的构造方法之前，如果没有用 `super()`来调用父类特定的构造方法，则会调用父类中“没有参数的构造方法”。因此，如果父类中只定义了有参数的构造方法，而在子类的构造方法中又没有用 `super()`来调用父类中特定的构造方法，则编译时将发生错误，因为 Java 程序在父类中找不到没有参数的构造方法可供执行。解决办法是在父类里加上一个不做事且没有参数的构造方法
+
+
+
+#### 成员变量与局部变量的区别有哪些
+
+1. 从语法形式上看:成员变量是属于类的，而局部变量是在方法中定义的变量或是方法的参数；成员变量可以被 public,private,static 等修饰符所修饰，而局部变量不能被访问控制修饰符及 static 所修饰；但是，成员变量和局部变量都能被 final 所修饰。
+2. 从变量在内存中的存储方式来看:如果成员变量是使用`static`修饰的，那么这个成员变量是属于类的，如果没有使用`static`修饰，这个成员变量是属于实例的。而对象存在于堆内存，局部变量则存在于栈内存。
+3. 从变量在内存中的生存时间上看:成员变量是对象的一部分，它随着对象的创建而存在，而局部变量随着方法的调用而自动消失。
+4. 成员变量如果没有被赋初值:则会自动以类型的默认值而赋值（一种情况例外:被 final 修饰的成员变量也必须显式地赋值），而局部变量则不会自动赋值。
+
+
+
+
+
+#### 创建一个对象用什么运算符?对象实体与对象引用有何不同
+
+new 运算符，new 创建对象实例（对象实例在堆内存中），对象引用指向对象实例（对象引用存放在栈内存中）。一个对象引用可以指向 0 个或 1 个对象（一根绳子可以不系气球，也可以系一个气球）;一个对象可以有 n 个引用指向它（可以用 n 条绳子系住一个气球）。
+
+
+
+
+
+#### 一个类的构造方法的作用是什么? 若一个类没有声明构造方法，该程序能正确执行吗? 为什么
+
+主要作用是完成对类对象的初始化工作。可以执行。因为一个类即使没有声明构造方法也会有默认的不带参数的构造方法。如果我们自己添加了类的构造方法（无论是否有参），Java 就不会再添加默认的无参数的构造方法了，这时候，就不能直接 new 一个对象而不传递参数了，所以我们一直在不知不觉地使用构造方法，这也是为什么我们在创建对象的时候后面要加一个括号（因为要调用无参的构造方法）。如果我们重载了有参的构造方法，记得都要把无参的构造方法也写出来（无论是否用到），因为这可以帮助我们在创建对象的时候少踩坑。
+
+
+
+#### 构造方法有哪些特性
+
+1. 名字与类名相同。
+2. 没有返回值，但不能用 void 声明构造函数。
+3. 生成类的对象时自动执行，无需调用。
+
+
+
+#### 在调用子类构造方法之前会先调用父类没有参数的构造方法
+
+帮助子类做初始化工作。
+
+####  对象的相等与指向他们的引用相等,两者有什么不同
+
+对象的相等，比的是内存中存放的内容是否相等。而引用相等，比较的是他们指向的内存地址是否相等。
+
+
+
+
+
+### 面向对象三大特征
+
+
+
+#### 封装
+
+封装是指把一个对象的状态信息（也就是属性）隐藏在对象内部，不允许外部对象直接访问对象的内部信息。但是可以提供一些可以被外界访问的方法来操作属性。就好像我们看不到挂在墙上的空调的内部的零件信息（也就是属性），但是可以通过遥控器（方法）来控制空调。如果属性不想被外界访问，我们大可不必提供方法给外界访问。但是如果一个类没有提供给外界访问的方法，那么这个类也没有什么意义了。就好像如果没有空调遥控器，那么我们就无法操控空凋制冷，空调本身就没有意义了
+
+
+
+```java
+public class Student {
+    private int id;//id属性私有化
+    private String name;//name属性私有化
+
+    //获取id的方法
+    public int getId() {
+        return id;
+    }
+
+    //设置id的方法
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    //获取name的方法
+    public String getName() {
+        return name;
+    }
+
+    //设置name的方法
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+```
+
+
+
+#### 继承
+
+不同类型的对象，相互之间经常有一定数量的共同点。例如，小明同学、小红同学、小李同学，都共享学生的特性（班级、学号等）。同时，每一个对象还定义了额外的特性使得他们与众不同。例如小明的数学比较好，小红的性格惹人喜爱；小李的力气比较大。继承是使用已存在的类的定义作为基础建立新类的技术，新类的定义可以增加新的数据或新的功能，也可以用父类的功能，但不能选择性地继承父类。通过使用继承，可以快速地创建新的类，可以提高代码的重用，程序的可维护性，节省大量创建新类的时间 ，提高我们的开发效率。
+
+**关于继承如下 3 点请记住：**
+
+1. 子类拥有父类对象所有的属性和方法（包括私有属性和私有方法），但是父类中的私有属性和方法子类是无法访问，**只是拥有**。
+2. 子类可以拥有自己属性和方法，即子类可以对父类进行扩展。
+3. 子类可以用自己的方式实现父类的方法。（以后介绍）。
+
+#### 多态
+
+**多态的特点:**
+
+- 对象类型和引用类型之间具有继承（类）/实现（接口）的关系；
+- 对象类型不可变，引用类型可变；
+- 方法具有多态性，属性不具有多态性；
+- 引用类型变量发出的方法调用的到底是哪个类中的方法，必须在程序运行期间才能确定；
+- 多态不能调用“只在子类存在但在父类不存在”的方法；
+- 如果子类重写了父类的方法，真正执行的是子类覆盖的方法，如果子类没有覆盖父类的方法，执行的是父类的方法。
+
+
+
+
+
+### 修饰符
+
+####  在一个静态方法内调用一个非静态成员为什么是非法的?
+
+由于静态方法可以不通过对象进行调用，因此在静态方法里，不能调用其他非静态变量，也不可以访问非静态变量成员。
+
+#### 静态方法和实例方法有何不同
+
+1. 在外部调用静态方法时，可以使用"类名.方法名"的方式，也可以使用"对象名.方法名"的方式。而实例方法只有后面这种方式。也就是说，调用静态方法可以无需创建对象。
+2. 静态方法在访问本类的成员时，只允许访问静态成员（即静态成员变量和静态方法），而不允许访问实例成员变量和实例方法；实例方法则无此限制。
+
+#### 2.3.3. 常见关键字总结:static,final,this,super
+
+详见文章: https://snailclimb.gitee.io/javaguide/#/docs/java/basic/final,static,this,super
+
+
+
+
+
+
+
+# Java 核心技术
+
+
+
+## Collections
+
+Collections 工具类常用方法:
+
+1. 排序
+2. 查找,替换操作
+3. 同步控制(不推荐，需要线程安全的集合类型时请考虑使用 JUC 包下的并发集合)
+
+### 排序操作
+
+```
+void reverse(List list)//反转
+void shuffle(List list)//随机排序
+void sort(List list)//按自然排序的升序排序
+void sort(List list, Comparator c)//定制排序，由Comparator控制排序逻辑
+void swap(List list, int i , int j)//交换两个索引位置的元素
+void rotate(List list, int distance)//旋转。当distance为正数时，将list后distance个元素整体移到前面。当distance为负数时，将 list的前distance个元素整体移到后面。
+```
+
+**示例代码:**
+
+```
+     ArrayList<Integer> arrayList = new ArrayList<Integer>();
+		arrayList.add(-1);
+		arrayList.add(3);
+		arrayList.add(3);
+		arrayList.add(-5);
+		arrayList.add(7);
+		arrayList.add(4);
+		arrayList.add(-9);
+		arrayList.add(-7);
+		System.out.println("原始数组:");
+		System.out.println(arrayList);
+		// void reverse(List list)：反转
+		Collections.reverse(arrayList);
+		System.out.println("Collections.reverse(arrayList):");
+		System.out.println(arrayList);
+
+
+		Collections.rotate(arrayList, 4);
+		System.out.println("Collections.rotate(arrayList, 4):");
+		System.out.println(arrayList);
+
+		// void sort(List list),按自然排序的升序排序
+		Collections.sort(arrayList);
+		System.out.println("Collections.sort(arrayList):");
+		System.out.println(arrayList);
+
+		// void shuffle(List list),随机排序
+		Collections.shuffle(arrayList);
+		System.out.println("Collections.shuffle(arrayList):");
+		System.out.println(arrayList);
+
+		// void swap(List list, int i , int j),交换两个索引位置的元素
+		Collections.swap(arrayList, 2, 5);
+		System.out.println("Collections.swap(arrayList, 2, 5):");
+		System.out.println(arrayList);
+
+		// 定制排序的用法
+		Collections.sort(arrayList, new Comparator<Integer>() {
+
+			@Override
+			public int compare(Integer o1, Integer o2) {
+				return o2.compareTo(o1);
+			}
+		});
+		System.out.println("定制排序后：");
+		System.out.println(arrayList);
+```
+
+### 查找,替换操作
+
+```
+int binarySearch(List list, Object key)//对List进行二分查找，返回索引，注意List必须是有序的
+int max(Collection coll)//根据元素的自然顺序，返回最大的元素。 类比int min(Collection coll)
+int max(Collection coll, Comparator c)//根据定制排序，返回最大元素，排序规则由Comparatator类控制。类比int min(Collection coll, Comparator c)
+void fill(List list, Object obj)//用指定的元素代替指定list中的所有元素。
+int frequency(Collection c, Object o)//统计元素出现次数
+int indexOfSubList(List list, List target)//统计target在list中第一次出现的索引，找不到则返回-1，类比int lastIndexOfSubList(List source, list target).
+boolean replaceAll(List list, Object oldVal, Object newVal), 用新元素替换旧元素
+```
+
+**示例代码：**
+
+```
+		ArrayList<Integer> arrayList = new ArrayList<Integer>();
+		arrayList.add(-1);
+		arrayList.add(3);
+		arrayList.add(3);
+		arrayList.add(-5);
+		arrayList.add(7);
+		arrayList.add(4);
+		arrayList.add(-9);
+		arrayList.add(-7);
+		ArrayList<Integer> arrayList2 = new ArrayList<Integer>();
+		arrayList2.add(-3);
+		arrayList2.add(-5);
+		arrayList2.add(7);
+		System.out.println("原始数组:");
+		System.out.println(arrayList);
+
+		System.out.println("Collections.max(arrayList):");
+		System.out.println(Collections.max(arrayList));
+
+		System.out.println("Collections.min(arrayList):");
+		System.out.println(Collections.min(arrayList));
+
+		System.out.println("Collections.replaceAll(arrayList, 3, -3):");
+		Collections.replaceAll(arrayList, 3, -3);
+		System.out.println(arrayList);
+
+		System.out.println("Collections.frequency(arrayList, -3):");
+		System.out.println(Collections.frequency(arrayList, -3));
+
+		System.out.println("Collections.indexOfSubList(arrayList, arrayList2):");
+		System.out.println(Collections.indexOfSubList(arrayList, arrayList2));
+
+		System.out.println("Collections.binarySearch(arrayList, 7):");
+		// 对List进行二分查找，返回索引，List必须是有序的
+		Collections.sort(arrayList);
+		System.out.println(Collections.binarySearch(arrayList, 7));
+```
+
+### 同步控制
+
+Collections提供了多个`synchronizedXxx()`方法·，该方法可以将指定集合包装成线程同步的集合，从而解决多线程并发访问集合时的线程安全问题。
+
+我们知道 HashSet，TreeSet，ArrayList,LinkedList,HashMap,TreeMap 都是线程不安全的。Collections提供了多个静态方法可以把他们包装成线程同步的集合。
+
+**最好不要用下面这些方法，效率非常低，需要线程安全的集合类型时请考虑使用 JUC 包下的并发集合。**
+
+方法如下：
+
+```
+synchronizedCollection(Collection<T>  c) //返回指定 collection 支持的同步（线程安全的）collection。
+synchronizedList(List<T> list)//返回指定列表支持的同步（线程安全的）List。
+synchronizedMap(Map<K,V> m) //返回由指定映射支持的同步（线程安全的）Map。
+synchronizedSet(Set<T> s) //返回指定 set 支持的同步（线程安全的）set。
+```
+
+### Collections还可以设置不可变集合，提供了如下三类方法：
+
+```
+emptyXxx(): 返回一个空的、不可变的集合对象，此处的集合既可以是List，也可以是Set，还可以是Map。
+singletonXxx(): 返回一个只包含指定对象（只有一个或一个元素）的不可变的集合对象，此处的集合可以是：List，Set，Map。
+unmodifiableXxx(): 返回指定集合对象的不可变视图，此处的集合可以是：List，Set，Map。
+上面三类方法的参数是原有的集合对象，返回值是该集合的”只读“版本。
+```
+
+**示例代码：**
+
+```
+        ArrayList<Integer> arrayList = new ArrayList<Integer>();
+        arrayList.add(-1);
+        arrayList.add(3);
+        arrayList.add(3);
+        arrayList.add(-5);
+        arrayList.add(7);
+        arrayList.add(4);
+        arrayList.add(-9);
+        arrayList.add(-7);
+        HashSet<Integer> integers1 = new HashSet<>();
+        integers1.add(1);
+        integers1.add(3);
+        integers1.add(2);
+        Map scores = new HashMap();
+        scores.put("语文" , 80);
+        scores.put("Java" , 82);
+
+        //Collections.emptyXXX();创建一个空的、不可改变的XXX对象
+        List<Object> list = Collections.emptyList();
+        System.out.println(list);//[]
+        Set<Object> objects = Collections.emptySet();
+        System.out.println(objects);//[]
+        Map<Object, Object> objectObjectMap = Collections.emptyMap();
+        System.out.println(objectObjectMap);//{}
+
+        //Collections.singletonXXX();
+        List<ArrayList<Integer>> arrayLists = Collections.singletonList(arrayList);
+        System.out.println(arrayLists);//[[-1, 3, 3, -5, 7, 4, -9, -7]]
+        //创建一个只有一个元素，且不可改变的Set对象
+        Set<ArrayList<Integer>> singleton = Collections.singleton(arrayList);
+        System.out.println(singleton);//[[-1, 3, 3, -5, 7, 4, -9, -7]]
+        Map<String, String> nihao = Collections.singletonMap("1", "nihao");
+        System.out.println(nihao);//{1=nihao}
+
+        //unmodifiableXXX();创建普通XXX对象对应的不可变版本
+        List<Integer> integers = Collections.unmodifiableList(arrayList);
+        System.out.println(integers);//[-1, 3, 3, -5, 7, 4, -9, -7]
+        Set<Integer> integers2 = Collections.unmodifiableSet(integers1);
+        System.out.println(integers2);//[1, 2, 3]
+        Map<Object, Object> objectObjectMap2 = Collections.unmodifiableMap(scores);
+        System.out.println(objectObjectMap2);//{Java=82, 语文=80}
+
+        //添加出现异常：java.lang.UnsupportedOperationException
+//        list.add(1);
+//        arrayLists.add(arrayList);
+//        integers.add(1);
+```
+
+### Arrays类的常见操作
+
+1. 排序 : `sort()`
+2. 查找 : `binarySearch()`
+3. 比较: `equals()`
+4. 填充 : `fill()`
+5. 转列表: `asList()`
+6. 转字符串 : `toString()`
+7. 复制: `copyOf()`
+
+### 排序 : `sort()`
+
+```
+		// *************排序 sort****************
+		int a[] = { 1, 3, 2, 7, 6, 5, 4, 9 };
+		// sort(int[] a)方法按照数字顺序排列指定的数组。
+		Arrays.sort(a);
+		System.out.println("Arrays.sort(a):");
+		for (int i : a) {
+			System.out.print(i);
+		}
+		// 换行
+		System.out.println();
+
+		// sort(int[] a,int fromIndex,int toIndex)按升序排列数组的指定范围
+		int b[] = { 1, 3, 2, 7, 6, 5, 4, 9 };
+		Arrays.sort(b, 2, 6);
+		System.out.println("Arrays.sort(b, 2, 6):");
+		for (int i : b) {
+			System.out.print(i);
+		}
+		// 换行
+		System.out.println();
+
+		int c[] = { 1, 3, 2, 7, 6, 5, 4, 9 };
+		// parallelSort(int[] a) 按照数字顺序排列指定的数组(并行的)。同sort方法一样也有按范围的排序
+		Arrays.parallelSort(c);
+		System.out.println("Arrays.parallelSort(c)：");
+		for (int i : c) {
+			System.out.print(i);
+		}
+		// 换行
+		System.out.println();
+
+		// parallelSort给字符数组排序，sort也可以
+		char d[] = { 'a', 'f', 'b', 'c', 'e', 'A', 'C', 'B' };
+		Arrays.parallelSort(d);
+		System.out.println("Arrays.parallelSort(d)：");
+		for (char d2 : d) {
+			System.out.print(d2);
+		}
+		// 换行
+		System.out.println();
+```
+
+在做算法面试题的时候，我们还可能会经常遇到对字符串排序的情况,`Arrays.sort()` 对每个字符串的特定位置进行比较，然后按照升序排序。
+
+```
+String[] strs = { "abcdehg", "abcdefg", "abcdeag" };
+Arrays.sort(strs);
+System.out.println(Arrays.toString(strs));//[abcdeag, abcdefg, abcdehg]
+```
+
+### 查找 : `binarySearch()`
+
+```
+		// *************查找 binarySearch()****************
+		char[] e = { 'a', 'f', 'b', 'c', 'e', 'A', 'C', 'B' };
+		// 排序后再进行二分查找，否则找不到
+		Arrays.sort(e);
+		System.out.println("Arrays.sort(e)" + Arrays.toString(e));
+		System.out.println("Arrays.binarySearch(e, 'c')：");
+		int s = Arrays.binarySearch(e, 'c');
+		System.out.println("字符c在数组的位置：" + s);
+```
+
+### 比较: `equals()`
+
+```
+		// *************比较 equals****************
+		char[] e = { 'a', 'f', 'b', 'c', 'e', 'A', 'C', 'B' };
+		char[] f = { 'a', 'f', 'b', 'c', 'e', 'A', 'C', 'B' };
+		/*
+		* 元素数量相同，并且相同位置的元素相同。 另外，如果两个数组引用都是null，则它们被认为是相等的 。
+		*/
+		// 输出true
+		System.out.println("Arrays.equals(e, f):" + Arrays.equals(e, f));
+```
+
+### 填充 : `fill()`
+
+```
+		// *************填充fill(批量初始化)****************
+		int[] g = { 1, 2, 3, 3, 3, 3, 6, 6, 6 };
+		// 数组中所有元素重新分配值
+		Arrays.fill(g, 3);
+		System.out.println("Arrays.fill(g, 3)：");
+		// 输出结果：333333333
+		for (int i : g) {
+			System.out.print(i);
+		}
+		// 换行
+		System.out.println();
+
+		int[] h = { 1, 2, 3, 3, 3, 3, 6, 6, 6, };
+		// 数组中指定范围元素重新分配值
+		Arrays.fill(h, 0, 2, 9);
+		System.out.println("Arrays.fill(h, 0, 2, 9);：");
+		// 输出结果：993333666
+		for (int i : h) {
+			System.out.print(i);
+		}
+```
+
+### 转列表 `asList()`
+
+```
+		// *************转列表 asList()****************
+		/*
+		 * 返回由指定数组支持的固定大小的列表。
+		 * （将返回的列表更改为“写入数组”。）该方法作为基于数组和基于集合的API之间的桥梁，与Collection.toArray()相结合 。
+		 * 返回的列表是可序列化的，并实现RandomAccess 。
+		 * 此方法还提供了一种方便的方式来创建一个初始化为包含几个元素的固定大小的列表如下：
+		 */
+		List<String> stooges = Arrays.asList("Larry", "Moe", "Curly");
+		System.out.println(stooges);
+```
+
+### 转字符串 `toString()`
+
+```
+		// *************转字符串 toString()****************
+		/*
+		* 返回指定数组的内容的字符串表示形式。
+		*/
+		char[] k = { 'a', 'f', 'b', 'c', 'e', 'A', 'C', 'B' };
+		System.out.println(Arrays.toString(k));// [a, f, b, c, e, A, C, B]
+```
+
+### 复制 `copyOf()`
+
+```
+		// *************复制 copy****************
+		// copyOf 方法实现数组复制,h为数组，6为复制的长度
+		int[] h = { 1, 2, 3, 3, 3, 3, 6, 6, 6, };
+		int i[] = Arrays.copyOf(h, 6);
+		System.out.println("Arrays.copyOf(h, 6);：");
+		// 输出结果：123333
+		for (int j : i) {
+			System.out.print(j);
+		}
+		// 换行
+		System.out.println();
+		// copyOfRange将指定数组的指定范围复制到新数组中
+		int j[] = Arrays.copyOfRange(h, 6, 11);
+		System.out.println("Arrays.copyOfRange(h, 6, 11)：");
+		// 输出结果66600(h数组只有9个元素这里是从索引6到索引11复制所以不足的就为0)
+		for (int j2 : j) {
+			System.out.print(j2);
+		}
+		// 换行
+		System.out.println();
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
