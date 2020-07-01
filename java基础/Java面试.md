@@ -153,7 +153,7 @@ Person person = new Person()
 
 这个时候就要提到类加载器的双亲委派模型，流程图如下所示：
 
-![](D:\devPro\javaCode\images\java\classloader_model_structure.png)
+![](..\images\java\classloader_model_structure.png)
 
 双亲委派模型的整个工作流程非常的简单，如下所示：
 
@@ -304,7 +304,7 @@ public class Singleton {
 
 它的字节码如下：
 
-![](D:\devPro\javaCode\images\java\synchronized_bytecode.png)
+![](..\images\java\synchronized_bytecode.png)
 
 可以看到被synchronized同步的代码块，会在前后分别加上monitorenter和monitorexit，这两个字节码都需要指定加锁和解锁的对象。
 
@@ -511,7 +511,7 @@ private Object readResolve(){
 
 线程状态流程图图
 
-![](D:\devPro\javaCode\images\java\java_thread_state.png)
+![](..\images\java\java_thread_state.png)
 
 - NEW：创建状态，线程创建之后，但是还未启动。
 - RUNNABLE：运行状态，处于运行状态的线程，但有可能处于等待状态，例如等待CPU、IO等。

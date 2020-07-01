@@ -255,7 +255,7 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
 
 channel下包含的核心概念有：
 
-![](D:\devPro\javaCode\images\通信\1089449-afd9e14197e1ef11.png)
+![](..\images\通信\1089449-afd9e14197e1ef11.png)
 
 ```
 Channel，表示一个连接，可以理解为每一个请求，就是一个Channel。

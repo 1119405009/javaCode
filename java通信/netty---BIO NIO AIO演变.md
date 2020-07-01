@@ -16,7 +16,7 @@ Netty并非横空出世，它是在BIO，NIO，AIO演变中的产物，是一种
 
 
 
-![](D:\devPro\javaCode\images\通信\1090617-20181118215610086-2008700581.png)
+![](..\images\通信\1090617-20181118215610086-2008700581.png)
 
 
 
@@ -48,7 +48,7 @@ NIO 全称New IO，也叫Non-Block IO 是一种非阻塞同步的通信模式。
 
 
 
-![](D:\devPro\javaCode\images\通信\1090617-20181118215941745-323892415.png)
+![](..\images\通信\1090617-20181118215941745-323892415.png)
 
 
 
@@ -94,7 +94,7 @@ AIO 也叫NIO2.0 是一种非阻塞异步的通信模式。在NIO的基础上引
 
 
 
-![](D:\devPro\javaCode\images\通信\1090617-20181118221221582-1287720922.png)
+![](..\images\通信\1090617-20181118221221582-1287720922.png)
 
 
 
@@ -152,7 +152,7 @@ AIO模型中通过AsynchronousSocketChannel和AsynchronousServerSocketChannel完
 
 
 
-![](D:\devPro\javaCode\images\通信\1090617-20181118221832172-1747040798.png)
+![](..\images\images\通信\1090617-20181118221832172-1747040798.png)
 
 
 

@@ -31,7 +31,7 @@ AOP(Aspect-Oriented Programming:面向切面编程)能够将那些与业务无�
 
 
 
-![](D:\devPro\javaCode\images\spring\68747470733a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f323031392d362f537072696e67414f5050726f636573732e6a7067.jpg)
+![](..\..\images\spring\68747470733a2f2f6d792d626c6f672d746f2d7573652e6f73732d636e2d6265696a696e672e616c6979756e63732e636f6d2f323031392d362f537072696e67414f5050726f636573732e6a7067.jpg)
 
 当然你也可以使用 AspectJ ,Spring AOP 已经集成了AspectJ ，AspectJ 应该算的上是 Java 生态系统中最完整的 AOP 框架了。
 
@@ -112,7 +112,7 @@ Spring AOP 已经集成了 AspectJ ，AspectJ 应该算的上是 Java 生态系�
 
 #### Spring 中的 bean 生命周期
 
-![](D:\devPro\javaCode\images\spring\181453414212066.png)
+![](..\..\images\spring\181453414212066.png)
 
 
 
