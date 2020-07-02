@@ -304,7 +304,11 @@ public class Singleton {
 
 它的字节码如下：
 
-![](..\images\java\synchronized_bytecode.png)
+![](http://javacode.blogwiki.top/synchronized_bytecode.png)
+
+
+
+
 
 可以看到被synchronized同步的代码块，会在前后分别加上monitorenter和monitorexit，这两个字节码都需要指定加锁和解锁的对象。
 
@@ -511,7 +515,7 @@ private Object readResolve(){
 
 线程状态流程图图
 
-![](..\images\java\java_thread_state.png)
+![](http://javacode.blogwiki.top/java_thread_state.png)
 
 - NEW：创建状态，线程创建之后，但是还未启动。
 - RUNNABLE：运行状态，处于运行状态的线程，但有可能处于等待状态，例如等待CPU、IO等。
