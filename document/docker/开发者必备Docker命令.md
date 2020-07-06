@@ -280,7 +280,7 @@ ports:
 volumes:
   - /mydata/mysql/log:/var/log/mysql
   - /mydata/mysql/data:/var/lib/mysql
-  - /mydata/mysql/conf:/etc/mysqlCopy to clipboardErrorCopied
+  - /mydata/mysql/conf:/etc/mysql 
 ```
 
 ### environment
